@@ -2,4 +2,4 @@
 
 ## Fall 2021
 
-# Contains data and scripts for exercises
+### This repository contains coding exercises for the 807 course. 
