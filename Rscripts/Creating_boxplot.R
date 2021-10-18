@@ -1,0 +1,144 @@
+#Create box plots using SIV diversity data
+
+#load necessary libraries
+library(ggplot2)
+library(colorspace)
+
+#If you don't have the above packages, install them:
+# install.packages('ggplot2')
+# install.packages('colorspace')
+
+#Read the data file
+summary<-read.csv("Data/Average_Diversity_R21.csv", stringsAsFactors = F)
+
+
+# There are 3 cohorts in this data (SIV only, Latent NR & Latent R)
+
+## 1. Create a box plot of average diversity by cohort (= 'mean' column)
+
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Cohort, y=mean*100, fill=Cohort))
+
+#Create a color vector
+### show palette colors from 'colorspace'
+hcl_palettes(plot = TRUE)
+hcl_palettes("qualitative", plot = TRUE)
+
+#my color vector
+colors<-qualitative_hcl(6, palette="Dark3")
+# colors
+hcl_palettes("qualitative", n=6, plot = TRUE)
+
+
+
+## Improve the figure by using a 'theme' and custom colors
+# There are many themes already available: Example https://www.datanovia.com/en/blog/ggplot-themes-gallery/
+
+#Plot using theme_bw()
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Cohort, y=mean*100, fill=Cohort), 
+                 color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"))+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()
+    
+# Try different themes and colors!
+
+
+## Improve the figure by ordering independent variables (X-axis). This is done by using 'factor'.
+# For these data, we want to order cohorts in the following order 
+coh<-c("SIV only","Mtb NR","Mtb R")
+# Make Cohort as 'factor'
+summary$Cohort<-factor(summary$Cohort, levels=c(coh))
+
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Cohort, y=mean*100, fill=Cohort),
+                 color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"), guide='none')+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()
+
+
+## Add the mean diversity for each cohort
+
+# create a new data frame with means for each cohort
+cohort<-aggregate(summary["mean"], by=list(summary$Cohort), mean)
+colnames(cohort)[1]<-"Cohort"
+
+## Q1. Can you add the means for each group (cohort) to the following box plot?
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Cohort, y=mean*100, fill=Cohort),
+                 color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"), guide='none')+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()
+
+### Q2. Can you overlay all data points to the box plot above?
+
+ggplot()+
+    geom_boxplot()
+    
+
+### Save the plot!
+
+
+
+####################################################################
+## 2. Plot the diversity by Tissue type by Cohort (Group bar chart)
+
+# use position_dodge()
+
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Tissue, y=mean*100, fill=Cohort),
+               position=position_dodge(width = 0.8),color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"))+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()
+
+
+## How can you improve the plot to see grouping more clearly? 
+# Use geom_vline to add lines to divide each tissue
+
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Tissue, y=mean*100, fill=Cohort),
+                 position=position_dodge(width = 0.8),color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"))+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()+
+    theme(panel.grid.major.x = element_blank())+
+    geom_vline(xintercept=1:4+0.5, color="gray50")
+
+
+## Can you add the means to the above plot?
+
+# 1) Calculate the averages for each tissues within each cohort
+Tis.mean<-
+
+# 2) Order the tissues
+summary$Tissue<-factor(summary$Tissue, levels = c("Plasma","Plasma nex","Peripheral LN","Thoracic LN","Lung"))
+Tis.mean$Tissue<-factor(Tis.mean$Tissue, levels = c("Plasma","Plasma nex","Peripheral LN","Thoracic LN","Lung"))
+
+
+# Q3. Plot the box plot created above and means together.
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Tissue, y=mean*100, fill=Cohort),
+                 position=position_dodge(width = 0.8),color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"))+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()+
+    theme(panel.grid.major.x = element_blank())+
+    geom_vline(xintercept=1:4+0.5, color="gray50")
+
+
+# Q4. Can you overlay all data points to the above plot? 
+
+ggplot()+
+    geom_boxplot(data=summary, aes(x=Tissue, y=mean*100, fill=Cohort),
+                 position=position_dodge(width = 0.8),color="gray20", outlier.alpha = 0.6)+
+    scale_fill_manual(values=paste0(colors[c(5,3,1)],"66"))+
+    xlab('')+ylab('% Average diversity')+
+    theme_bw()+
+    theme(panel.grid.major.x = element_blank())+
+    geom_vline(xintercept=1:4+0.5, color="gray50")
+    
+

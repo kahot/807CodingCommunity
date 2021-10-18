@@ -1,0 +1,12 @@
+#Color with alpha
+
+rgb(1,1,1,alpha=0.1) #1A
+rgb(1,1,1,alpha=0.2) #33
+rgb(1,1,1,alpha=0.3) #4D
+rgb(1,1,1,alpha=0.4) #66
+rgb(1,1,1,alpha=0.5) #80
+rgb(1,1,1,alpha=0.6) #99
+rgb(1,1,1,alpha=0.7) #B3
+rgb(1,1,1,alpha=0.8) #CC
+rgb(1,1,1,alpha=0.9) #E6
+
