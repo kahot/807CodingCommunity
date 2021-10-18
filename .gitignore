@@ -1,0 +1,4 @@
+# Config files
+.Rhistory
+*.DS_Store
+
