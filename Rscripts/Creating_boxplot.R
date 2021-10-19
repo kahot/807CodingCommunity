@@ -24,9 +24,9 @@ ggplot()+
 hcl_palettes(plot = TRUE)
 hcl_palettes("qualitative", plot = TRUE)
 
-#my color vector
+# my color vector
 colors<-qualitative_hcl(6, palette="Dark3")
-# colors
+# See the colors
 hcl_palettes("qualitative", n=6, plot = TRUE)
 
 
@@ -76,15 +76,15 @@ ggplot()+
 ### Q2. Can you overlay all data points to the box plot above?
 
 ggplot()+
-    geom_boxplot()
+    
     
 
-### Save the plot!
+### Save the plot to your computer!
 
 
 
 ####################################################################
-## 2. Plot the diversity by Tissue type by Cohort (Group bar chart)
+## 2. Plot the diversity by Tissue type by Cohort
 
 # use position_dodge()
 
